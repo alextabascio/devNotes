@@ -77,3 +77,17 @@
       ggplot(data = filteredData(), aes(x = "Day", y = "Index")) + geom_point()
       })
     - output$p1 = renderPlot(plot1)
+
+## Single Page Layouts
+
+#### Fluid Rows
+
+- each fluid row has a width of 12 so all columns must add to 12
+
+#### Sidebar Panel
+
+- common styling to include a sidebarPanel to the left and a mainPanel to the right
+
+#### Conditional Panel
+
+- Only show to the user if an existing input is set
