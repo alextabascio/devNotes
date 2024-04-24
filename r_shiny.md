@@ -91,3 +91,26 @@
 #### Conditional Panel
 
 - Only show to the user if an existing input is set
+
+- checkboxInput("showtitle", label = "Please select to enter title", value = FALSE)
+  conditionalPanel(condition = "input.showtitle == TRUE",
+  textInput("title", label = "Enter Title", placeholder = "Title"))
+
+- can be incorporated into outputs
+
+## Multipage Layouts
+
+- allow the ability to show a lot of information with each sections getting a conserdable amount of space
+  compared to a single page layout
+
+#### Tabset Panel
+
+works within you main panel or body
+tabsetPanel(
+tabePanel(Output)
+tabePanel(Output 2)
+)
+
+can also get a navbarPage(navbar title,
+tabPanel("Inputs"),
+navBarMenu())
