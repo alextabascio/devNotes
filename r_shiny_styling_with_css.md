@@ -111,5 +111,28 @@ value_style = "correct-value"
 value = "incorrect
 value_style = "incorrect-value"
 }
-HTML(glue("<h3>{guess()} is <span class= '{value_style}>{value}</span></h3>))
+HTML(glue("<h3>{guess()} is <span class= '{value_style}'>{value}</span></h3>"))
 })
+
+## Changing the font
+
+- load up the font
+
+  - google fonts is a good resource
+  - gives you custom html into your website
+  - in the tags$head add HTML(what you copied over from google)
+
+- tell everything in the app to use that font
+
+  - in css file add:
+
+    - body{
+      font-family: our custom font name
+      }
+
+    - can also just add it to certain elements within your structure
+
+## Conclusions
+
+- use bslib to get bootstrap to use html and css syntax
+- can edit the css yourself
