@@ -178,3 +178,30 @@ Azure Instance Metadata Services
     With scale set
         Gets notifications about upcoming evictions
         Download postman
+
+
+### Deploying App the Azure using a VM
+
+Setup the app catalog
+    Set up a folder that will be copied to the virtual machine
+    set up a resource group and VM that will contain all components used by the app
+
+Configure the VM to run the app via the server manager
+    configure the VM to operate as a web server
+
+Need to setup a hosting bundle for dotnet6 applications
+    dotnet.microsoft.com/en-us/download/dotnet/6.0
+    download the hosting bundle
+
+Now we can setup the catalogue app
+    Prepare a folder, copy and paste to files from the local folder to the virtual machine folder
+    Configure the webserver on the VM in IIS
+
+    Need to explicitly also access for external networks to the virtual machine. Will be explained in the Network section
+
+
+
+
+
+
+## Data in Azure
