@@ -2,30 +2,30 @@
 
 ## BASIC CONCEPTS
 
-Regions
-    Every resource will get placed in a region
+#### Regions
+    - Every resource will get placed in a region
     - How to select a region
-        Geographical proximity to the system’s audience
-        Service Availability
-        Availability zones
-        Pricing
+        - Geographical proximity to the system’s audience
+        - Service Availability
+        - Availability zones
+        - Pricing
 
-Resource Groups
-    Used for grouping resources by a logic boundary
-    Free
-        Can create as many as you want
-    Examples of resource groups
-        Development / Test / Production resources
-        Team A vs Team B
-    Resource Groups vs Subscriptions
-        Subscriptions
-            Have associated accounts (Account level)
-            Cost centre
-        RGs
-            Containers for the resources themselves
-    Naming conventions
-        Have “rg” as a prefix
-        RG-Development
+#### Resource Groups
+    - Used for grouping resources by a logic boundary
+    - Free
+        - Can create as many as you want
+    - Examples of resource groups
+        - Development / Test / Production resources
+        - Team A vs Team B
+    - Resource Groups vs Subscriptions
+        - Subscriptions
+            - Have associated accounts (Account level)
+            - Cost centre
+        - RGs
+            - Containers for the resources themselves
+    - Naming conventions
+        - Have “rg” as a prefix
+        - RG-Development
 
 Storage Account
     Used by various services
