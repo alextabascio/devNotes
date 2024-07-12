@@ -264,15 +264,100 @@
         - add all the updated files to the app restart the application
     - Have to add the catalog vm ip address to the firewall rules in the DB
 
-- Securing the DB connection
+- Securing the DB connection with a private endpoint
     - want the connection to go through a private ip rather than a public ip and firewall rule
     - setup a private endpoint for where the vm is located
+    - we access the DB with the same url when we connected to the VM
 
+- In app services you can configure the connection string to the DB within the Azure portal, and then secure the connection through vnet integration, on the app service side, and private endpoint, on the server side
 
+- reminder:
+    copy the SQL connection string to the Resources Helper List
+
+#### Cosmos DB
+- Fully managed no SQL database
+- amazing preformance
+- fully automatic management
+- Contains multiple APIs
+    - SQL, Mongo, etc.
+
+- Cosmos is a heirarchical DB
+    - items can have its own structure
+    - dealing with containers and items rather than tables, allowing each item to have their own structure
+
+- has similar backup and security
+
+- Cosmos DB Partitions
+    - Data items are divided into partitions
+        - logical group of items based on a property
+        - i.e. in a database of different cars, the brand can be the partition property
+    - this is the base scale unit in cosmos db
+        - when we scale up or down we either add or remove partitions
+    - make sure items are divided as evenly as possible and to select the right partition
+        - these properties can't be modified
+
+#### SQL vs NOSQL
+
+- SQL are relational databases
+    - store the data in table
+    - tables have concrete set of columns and can have relations with other tables
+
+- SQL databases have transactions
+- Querying is very refined in SQL
+
+- No SQL
+    - better for preformance and size
+    - Schema Less
+        - can store different entities with different fields within the same table as they are usually stored in JSON format
+
+- have eventual consistency rather than transactions
+
+#### Cosmos DB Cont'd
+
+- Consistency Level
+    - Realtional DB
+        - Strong consistency (high availability, high latency)
+    - No SQL
+        - eventual consistency (low availability, low latency)
     
+    Basic questions
+        - if region x updates an item and region y read this item, what version does it get?
+    
+    - 5 levels
+        - Strong (similar to SQL database)
+            - region y gets the last version updated in region x
+            - no different versions of the data
+        - bounded
+            - region y will lag behind region x by t time
+            - keeps the order of the versions
+        - session
+            - strong consistency in a client session
+            - other clients will get a consistent prefix
+        - consistent prefix
+            - keeps the order of the versions but no garuntee of the lag size
+            - used for low write larency and infrequent reads
+        - eventual
+            - no garuntee of order and lag size
+            - i.e. count of Retweets, Likes, etc. where it's okay if the count fluctuates
+
+- configured at the account level
+
+
+- Pricing
+    - Request Units / second
+    - 1 RU = Reading item of size 1KB in 1 second
+        - Update, delete, insert and query will is more than 1 RU
+    - Pricing based off
+        - database operations type
+        - write regions
+        - No. of provisioned RU/s
+
+
+
+
+
+
 
         
 
-
-    
 
