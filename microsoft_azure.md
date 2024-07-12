@@ -4,7 +4,7 @@
 
 Regions
     Every resource will get placed in a region
-    How to select a region
+    - How to select a region
         Geographical proximity to the system’s audience
         Service Availability
         Availability zones
@@ -195,6 +195,7 @@ Need to setup a hosting bundle for dotnet6 applications
 
 Now we can setup the catalogue app
     Prepare a folder, copy and paste to files from the local folder to the virtual machine folder
+
     Configure the webserver on the VM in IIS
 
     Need to explicitly also access for external networks to the virtual machine. Will be explained in the Network section
@@ -205,3 +206,76 @@ Now we can setup the catalogue app
 
 
 ## Data in Azure
+
+Provides cloud services for data solutions that are fully managed
+
+Can be part of the azure app or completely idenpendent
+
+Major Features (what to look for)
+    Security
+        Encryption
+    Data Backup and Retention Period
+    Availability
+
+Databases on VM
+    have the option to set up a VM with database software
+    Pros of using on a VM
+        full flexibility to setup and configure anyway you want
+    Cons on VM
+        You have to take care of everything
+            SLA
+            Updates
+            Security
+            Backup
+            etc.
+
+### Azure SQL
+Managed SQL Server on Azure
+Fully managed DB
+Offers flexible pricing
+
+Types of DBs
+    Azure SQL
+        Single DB on a single server
+        Offers lots of backup and security options
+        Can be set up for provisioned or serverless tiers
+            serverless might make sense for cui
+    Elastic Pool
+        Store multiple DBs on a single server
+        Good for low-utilization and frequent spikes
+        Very cost effective
+            as long as the server can support the resources you need
+    Managed Instance
+        Closer to an on-premises SQL server
+
+Which one to choose
+    Are you migrating an on-prem SQL -> Managed Instance
+    Do you need multiple mostly low-utilization DBs -> Elastic Pool
+    All other cases -> Azure SQL
+
+Creating and Connecting to Azure SQL Database
+    Create SQL database for your needs
+    Find how to connect to SQL server from R studio
+        Probably need to install a specific package
+
+Connecting an App to Azure SQL
+    modify the startup.js file
+    add the connection string to the appsetting.json and add your DB password
+    install the dotnet ef tool and dotnet ef migration
+    deploy to the cloud through the VM you are running your app on
+        add all the updated files to the app restart the application
+    Have to add the catalog vm ip address to the firewall rules in the DB
+
+Securing the DB connection
+    want the connection to go through a private ip rather than a public ip and firewall rule
+
+    setup a private endpoint for where the vm is located
+
+
+    
+
+        
+
+
+    
+
