@@ -81,5 +81,45 @@ $add_data and the retireved using $curr_data
 
 ## CONNECTING GRAPHS TO OUR LEAFDOWN MAP
 
+- Two types of data are needed
+    - SpatialPolygonsDataFrames, the shapes or spatial regions used taken from the raster package
+    - Census or other data, the data we want to display on the map
 
+- To connect the graphs with the map, we can use the $curr_sel_data() attribute
+    - This attribute is a reactiveValue which allows us to update the graphs whenever the user selects a shape on the map or drills a level up or down
 
+- In the server.r we obtain the data using
+    - df = my_leafdown$curr_sel_data()
+
+- example
+    - output$selectedchart = renderPlotly({
+        - get the currently selected data from the map
+        df = my_leafdown$curr_sel_data()
+
+        - use an if statement to see if an area is selected selected areas
+        if(nrow(df) > 0){
+            - use an internal if statement based on the mapping scale
+            if(my_leafdown$curr_map_level == 1){
+                df = df[, c("state_abbr", "Democrats2016", "Republicans2016", "Libertarians2016", "Green2016")]
+                df = df %>%
+                    pivot_longer(2:5, "party") %>%
+                    group_by(party)
+            } else{
+                df = df[, c("County", "Democrats2016", "Republicans2016", "Libertarians2016", "Green2016")]
+                df = df %>%
+                    pivot_longer(2:5, "party") %>%
+                    group_by(party)
+                df$value = df$value
+                names(df)[1] = "state_abbr"
+            }
+        } else{
+            df <- data.frame(
+                party = c("Democrats2016", "Republicans2016", "Libertarians2016", "Green2016"),
+                state_abbr = "USA",
+                value = c(0.153, 0.634, 0.134, 0.059)
+            ) %>%
+                group_by(party)
+        }
+
+    - create the graph as you would using ggplot and then converting to a plotly 
+    })
