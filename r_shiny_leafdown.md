@@ -42,7 +42,7 @@ $add_data and the retireved using $curr_data
     - Therefore attributes like fillColor or opacity can be specified just as for a usual leaflet map.
 - example
     - map = my_leafdown$draw_leafdown(
-    fillColor = ~ colorNumeric("Greens", GDP_2014)(GDP_2014)
+        fillColor = ~ colorNumeric("Greens", GDP_2014)(GDP_2014)
     )
 
 - we can also add legends and or a basemap as with other leaflet maps
@@ -54,7 +54,7 @@ $add_data and the retireved using $curr_data
     - my_leafdown$curr_sel_data()
 - this attribute is a reactiveValue that allows to update graphs and other elements upon a user click
 
-## Drilldown
+#### Drilldown
 - This will update the currently active spdf (my_leafdown$curr_spdf) which then only contains polygons and corresponding metadata for regions whose parents were active in the upper (previous) map level
 - example
     - my_leafdown$drill_down()
@@ -67,5 +67,19 @@ $add_data and the retireved using $curr_data
     - new_data <- metadata %>% 
     dplyr::left_join(gdp_2014_admin_districts, by = c("NAME_2" = "Admin_District"))
     - my_leafdown$add_data(new_data)
+
+- we can then draw the map
+    - my_leafdown$draw_leafdown(
+        fillColor = ~ colorNumeric("Blues", GDP_2014)(GDP_2014)
+    )
+- We can use the keep_zoom() method to keep the current zoom level as well as the current view center of the user after the map is drawn.
+    - map <- my_leafdown$keep_zoom(map, input)
+
+#### Drillup
+- Drill up workflow is the exact same as drill down with the active regions remaining
+
+
+## CONNECTING GRAPHS TO OUR LEAFDOWN MAP
+
 
 
