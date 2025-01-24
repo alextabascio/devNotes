@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Race Registration</title>
+  </head>
+  <body>
+    <h1>Race Registration</h1>
+    <form action="/race_reg">
+      <div>
+        <label for="firstname">First Name</label>
+        <input id="firstname" type="text" name="first" required />
+        <label for="lastname">Last Name</label>
+        <input id="lastname" type="text" name="last" required />
+      </div>
+      <div>
+        <p>Select a Race:</p>
+        <p>
+          <label for="funrun">Fun Run 5k</label>
+          <input type="radio" name="race" id="funrun" value="funrun" />
+          <br />
+          <label for="half">Half Marathon</label>
+          <input type="radio" name="race" id="half" value="half" />
+          <br />
+          <label for="full">Full Marathon</label>
+          <input type="radio" name="race" id="full" value="full" />
+        </p>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <div>
+        <label for="agegroup">Select Age Group</label>
+        <select name="agegroup" id="agegroup">
+          <option value="under18">under 18</option>
+          <option value="youngadults">18-30</option>
+          <option value="adults">30-50</option>
+          <option value="seniors">50+</option>
+        </select>
+      </div>
+      <button>Register</button>
+    </form>
+  </body>
+</html>
+
+file:///C:/race_reg?first=alex&last=tabascio&race=half&email=alex%40alex.com&password=vlhqqoECE&agegroup=30-50
