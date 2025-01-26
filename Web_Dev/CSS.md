@@ -197,7 +197,6 @@
 ## Other CSS Properties
 
 - Opacity and Alpha
-
   - Transpency
     - RGBA
       - scale between 0 and 1
@@ -207,7 +206,6 @@
       - is the entire element or class and everything inside
 
 - Position
-
   - static = default value for all elements
   - relative = can move an element relative to itself
     - top, left, values can be positive and negative
@@ -219,7 +217,6 @@
     - is fixed when you are scrolling
 
 - Transitions
-
   - property name duration timing function
   - similar to the syntax as a border: width style color
     - easings.net for looking up timing functions.
@@ -234,3 +231,21 @@
     - skew: skew an object
     - can combine elements at the same time
   - will apply to everything in our element that we select
+
+- Box Shadow
+  - cast a drop shadow from a frame
+
+- Background
+  - image
+    - can pass in a url either for a folder or online through background-image: url()
+  - size
+    - can change the size of the image we pass in
+  - if you are using background it has to done right after position and needs a / inbetween
+    - i.e. center/cover
+
+- Google Fonts
+  - Can you free fonts for webpages
+  - fonts.google.com
+  - can add what fonts you want and it gives you an embed link to add it to the document which you can then implement in css
+  - it will grab the fonts using the link when the page loads
+  - can select multiple font families and weights
