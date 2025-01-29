@@ -249,3 +249,54 @@
   - can add what fonts you want and it gives you an embed link to add it to the document which you can then implement in css
   - it will grab the fonts using the link when the page loads
   - can select multiple font families and weights
+
+## Flexbox and Responsive CSS
+- focus on the concepts not memorizing the properties
+
+- What is flexbox
+  - how do we distribute space across elements as the page expands and contrasts to create flexible layouts
+
+- The flex-model
+  - set display to flex
+    - main axis
+      - left to right
+  - flex-direction
+    - default is left to right
+    - reverse
+      - direction from right to left with reverse
+    - column
+      - our main axis goes top to bottom
+    - column reverse
+      - our main axis goes bottom to top
+  - justify content
+    - how we align items on the main axis
+    - default is flex-start
+      - dependes on the side where the main axis starts
+    - flex-end
+      - sets the start to the other side
+    - center
+      - centers content along the main axis
+  - flex-wrap
+    - how to wrap the content if there isn't enough space in the element
+    - wrap and wrap reversed
+    - depends on the justify content and flex-direction
+  - align items
+    - how we align items along the cross axis
+    - has similar items to justify content
+    - text items can be aligned through baseline
+  -align content
+    - distribute along the cross axis when there are multiple rows
+    - controlling space between the rows or columns depending on the orientation
+  
+  - align self
+    - can change the alignment for a singular item along the cross axis
+
+### Flexing Items
+  - Flex Basis
+    - defines the initial size of an element
+  - flex grow
+    - controls the amount of space an item takes up if available
+
+    
+
+
