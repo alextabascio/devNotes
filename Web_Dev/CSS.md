@@ -296,7 +296,129 @@
     - defines the initial size of an element
   - flex grow
     - controls the amount of space an item takes up if available
+    - is proportional
+    - can also set a min and max widths
+    - can assign numbers to different elements
+  - flex shrink
+    - how elements shrink when theres not enough space in the container
+  - shorthand property (flex)
+    - set everything in one go
+    - flex-grow | flex-shrink | flex-basis
+      - flex 2 2 10%
 
-    
+- Responsive Design and Media Queries
+  - Making a website thats able to respond based on what device its being displayed on
+  - using @media (different media features based on the viewport)
+    - min-width, max-width, min max height, orientation, etc.
+    - layout changes and elements will stack be added or removed based on the dimensions that the screen is.
+
+
+## CSS Bootstrap
+- A third party tool that we can incorporate into our code
+  - bootstrap grid and the responsive grid are two main reasons why people use it
+
+### Introduction
+- What is a framework
+  - a collection of components to insert into our app
+  - grid to help layout our websites
+- All things we can do on our own but it is much faster to get premade solutions if possible
+
+- Grid System
+  - pre-written css that relies on classes
+    - helps to setup and layout your website
+
+- Things can be customized on top of the framework in order to make your site or platform look unique
+
+### Bootstrap
+- Implementing Bootstrap
+  - can either download or access remotely through a CDN
+  - put the bootstrap style sheet before your own css style sheet
+  - Certain components of bootstrap need JavaScript
+  - Three script files that should be included at the bottom of your body
+
+- Container Class
+  - contain and pad content within them
+  - predefined styled containers
+
+- Buttons
+  - btn with different variations
+  - have sematics for different styles and colors
+    - just built in options that can be modified
+
+- Typography
+  - text and headings
+
+
+- Forms
+  - class="form-control"
+    - what you put on the input
+  - class="form-group"
+    - groups the form and input together
+
+- Navbars
+  - navbar-... is for the text color
+  - bg-... is for the bockground
+  - can embed images and nav links
+    - div with anchor tags inside
+      - nav-item, nav-link
+    - use navbar-expand-... to say when you want all navbar options to show up across then NavBar versus in a hamburger menu
+    - navbar-toggler button will be the hamburger menu
+    - have to connect the button and navbar
+      - data-toggle = collapse
+      - data-target is the id link to the navbar
+- icons
+  - lots of free icones in bootstrap that we can use
+
+- Other Utilities
+  - quick ways of applying css styles in bootstrap
+    - Border
+      - border, border-top, etc
+      - can change the radius, size, color, etc
+    -Padding
+      - can add padding in bootstrap as well
+        - can adjust the padding on each side like borders
+    - Display
+      - can show/hide elements based on the screen size
+
+- Cards
+  - a generic content container
+    - commonly used within the grid system
+    - basically a box with a border
+
+- Carousel
+  - a slider where you can put pictures
+  - a lot of javascript behind the scenes
+    - link the controls to the data slide
+
+- drop down menus
+  - a lot that can be done with them
+
+- modals
+  - popup dialog boxes
+
+
+
+
+
+### Grid System
+- only works inside of a container
+- need to create a row using class row
+- every row has 12 units to divide up
+  - similar to shiny
+
+- responsive layouts
+  - based on predefined sizes in bootstrap
+- can set the width based on the breakpoint width
+  - always breakpoint and above unless you specify a larger spacing
+    - i.e col-xl-6 col-md-6...
+- grid utilities
+  - bootstrap uses flexbox terminology
+
+
+
+
+
+
+
 
 

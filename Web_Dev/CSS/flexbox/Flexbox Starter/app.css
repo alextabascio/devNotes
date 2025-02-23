@@ -22,5 +22,33 @@ h1 {
     width: 100px;
     height: 100px;
     text-align: center;
-    flex-basis: 200px;
+    flex-basis: 300px;
+}
+
+div:nth-of-type(1) {
+    flex-grow: 1;
+}
+
+div:nth-of-type(5) {
+    flex-grow: 2;
+    flex-shrink: 0;
+}
+
+
+main {
+    width: 80%;
+    margin: 0 auto;
+    border: 5px soild black;
+    height: 500px;
+    display: flex;
+}
+
+main .sidebar {
+    background-color: blueviolet;
+    flex: 1 2 150px;
+}
+
+main .maincontent {
+    background-color: aquamarine;
+    flex: 2 1 400px;
 }
