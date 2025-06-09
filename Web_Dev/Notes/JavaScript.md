@@ -369,12 +369,14 @@ const allPets = [...cats, ...dogs, 'Turtle', 'Binx']
 
 With Objects
 - can copy properites from one object into another object similar to arrays
-- const feline = {legs: 4, family: 'Felidae'};
-- const canine = {isFurry: true, family: 'Caninae'};
+```
+const feline = {legs: 4, family: 'Felidae'};
+const canine = {isFurry: true, family: 'Caninae'};
+```
 - Can copy and add in properties
-    - {...feline, color = 'black'}
-- Add combine
-    - const CatDog = {...feline, ...canine}
+`{...feline, color = 'black'}`
+- And combine
+    - `const CatDog = {...feline, ...canine}`
     - when there is a conflict (both objects had a family property) the last object's values has precidence
 
 ## Rest
