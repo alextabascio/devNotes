@@ -113,6 +113,7 @@
     - good practice to put the script at the end of the body
 
 
+
 # Arrays
 - an ordered collection of values
     - made using []
@@ -135,6 +136,8 @@
         - nums = [1,2,3]
         - numsCopy = nums
 - can change the values of an array that was defined by const but can't change the data type
+
+
 
 # Object Literals
 - objects are a set of properties with a label attached to them
@@ -178,6 +181,7 @@
     - shoppingCart[1].price
         - 2.49
 
+
 # Loops
 ## for loops
     - for (initial expression, condition, incremental expression)
@@ -206,6 +210,7 @@
         - will just give us the key and then we can get the value using the key
     - can use a method Object.keys or Object.Values which turns it into an array
     - can then use for of like we learned before
+
 
 
 # Functions
@@ -249,10 +254,137 @@
 - functions are values that can be stored and pases around similar to an array
     - can pass and return functions, store them, etc.
 
+## Higher Ordered Functions
+- functions that accept other functions, or functions that return functions
+- pass through the function not the value of the function
+    - callTwice(rollDie) NOT callTwice(rollDie())
+
+## Returns
+- have to hold the function when returning a function
+    - const func = makeMysteryFunc()
+
+- call also be used to create a new function (factory function) based on the parameters inputted to the first function
+    - example: return a function to find between the min and max based on the two numbers inputted as arguements with the first function
+
+## Methods
+- functions that are added as properties on an object
+- every method is a function but not every function is a method
+
+## This
+- a keyword in JS used to access properties from the same object
+- it actually depends on how we call the function
+
+## Try/Catch
+- used to catch errors and prevent them from breaking your code
+try {
+    hello.toUpperCase();
+} catch {
+    console.log("Error")
+}
+
+# Callbacks and Array Methods
+- methods that expect a function to be passed in
+
+## forEach
+- calls the function once per array
+- was used before for loops were created (not used very often)
+
+## Map
+- similar to foreach but creates a new array with the output
+
+## Arrow Functions
+- Newer syntax for defining functions more compact than a regular function
+- example
+    - const square = (x) => {
+        return x * x;
+    }
+- can do implicit return
+    - leaves off return in certain situations
+- replace the {} with ()
+- can also remove the () if it's all on one line
+- CAN ONLY USE THIS FOR A SINGLE EXPRESSION
+
+## setTimeout and setInterval
+- will execute code after a certain amount of time (milliseconds)
+    - setTimeout(() =>{
+        console.log("are you there?")
+    }, 3000)
+
+- will continue to call the function at a certain interval
+    - const id = setInterval(() => {
+        console.log(Math.random())
+    }, 2000);
+
+    - clearInterval(id); // will stop it
+
+## filter
+- make a subset in a new array based on a rule or callback
+    - const goodMovies = movies.filter(movie => {
+        return move.score > 80;
+    })
+- can chain methods together
+    - const badMovies = movies.filter(m => m.score < 30).map(=> m.title);
+
+## Some and every
+- Every: returns true or false if every element return True
+- Some: very similar but returns true is any element returns True
+    - movies.some(movie => movie.year > 2015)
+
+## reduce
+- executes a reducer function on each element of the array resulting in a single value in a similar way to a for loop
+- element.reduce((accumulator, current) => math operation i.e. accumulator + current)
+- can also specify the initial value
+
+## Arrow functions and this
+- the keyword this behaves differently in arrow function compared to a regular function
 
 
 
+# New Features in Java Script
 
+## Default params
+- function rollDie(numSides = 6){
+    return math.floor(math.random() * numSides) + 1
+}
+- don't have to handle undefined with an if statement
 
+## Spread
+In function Calls
+- Spreading an array in a function call
+- i.e Math.max(13,4,6,28,7)
+    - uses arguments for each number
+- const nums = [13,4,6,28,7]
+    - Math.max(nums) won't work
+    - Can use ... to spread nums across into seperate arguments
+- Math.max(...nums)
+- can also spread with strings to pass in each character
 
+With Array Literals
+- Can copy and/or combine arrays easily
+```
+const cats = ['Frodo', 'Loki']
+const dogs = ['Lila', 'Rielly']
+const allPets = [...cats, ...dogs, 'Turtle', 'Binx'] 
+```
 
+With Objects
+- can copy properites from one object into another object similar to arrays
+- const feline = {legs: 4, family: 'Felidae'};
+- const canine = {isFurry: true, family: 'Caninae'};
+- Can copy and add in properties
+    - {...feline, color = 'black'}
+- Add combine
+    - const CatDog = {...feline, ...canine}
+    - when there is a conflict (both objects had a family property) the last object's values has precidence
+
+## Rest
+- Will hold the arguements passed into a function like an array, but doesn't have array arguements
+    - the Rest Parameter will collect all arguments and put them into an array so we can use different elements
+    - decalred in the function arguments
+- function sum(...nums){
+    return nums.reduce((total, el) => total + el)
+}
+
+## Destructuring
+- A clean syntax to extract values from arrays and/or objects
+- 
