@@ -25,15 +25,15 @@
     - built in
     - Math.PI or Math.abs
     - Can also do random numbers i.e. between 1 and 10
-        Math.floor(Math.random() * 10)
+        `Math.floor(Math.random() * 10)`
 
 ### Variables
 - storing a value to a name to refer back to it later or change it later
     - start with "let" in JS
     - can use "++" or "--" to add or subtract by 1
-- i++
+`i++`
     - stores the variable first and then updates (post increment operator)
-- ++i
+`++i`
     - changes the increment first and the stores (pre-increment operator)
 
 - Const and Var
@@ -46,8 +46,8 @@
 - Naming variables
     - can't start with a digit
     - most common to do camel-case
-        - isLoggedIn = true;
-        - currentYear = 2025;
+        `isLoggedIn = true;`
+        `currentYear = 2025;`
 
 ### Strings
 - can use double or single quotes
@@ -60,8 +60,8 @@
     - methods can have no arguments or arguments
 
 - template literals
-    - `I counted ${3 + 4} sheep` = I counted 7 sheep
-        - has to use back ticks ``
+    `I counted ${3 + 4} sheep` = I counted 7 sheep
+        - has to use back ticks
     - whatever is inside "${}" is taken as an expression
     - can also embed variables inside the string
 
@@ -97,12 +97,54 @@
 - || = OR
 - ! = NOT
 
+```
+const password = prompt("Please enter a password");
+if (password.length >= 6){
+    // Password can't include a space
+    if (password.indexOf(' ') === -1){
+        console.log("Valid Password")
+    } else {
+        console.log("Can't contain a space")
+}
+} else {
+    console.log("Too short")
+}
+```
+
 - Switch
     - is a control-flow syntax that can replace multiple if statements
     - weird syntax
     - Thing we want to evaluate inside switch
     - will run the code until it hits a break
     - can add a default case similar to an else
+```
+// Switch Operator
+const day = 2;
+switch (day) {
+    case 1:
+        console.log("Monday");
+        break;
+    case 2:
+        console.log("Tuesday");
+        break;
+    case 3:
+        console.log("Wednesday");
+        break;
+    case 4:
+        console.log("Thursday");
+        break;
+    case 5:
+        console.log("Friday");
+        break;
+    case 6:
+    case 7:
+        console.log("weekend");
+        break;
+    default:
+        console.log("Error");
+        break;
+}
+```
 
 ## Running Javascript code general notes
 - console.log() is similar to print()
@@ -133,8 +175,10 @@
 - Reference Types and Equality
     - each array has it's own reference in memory and won't be equal even if the content inside is the same
     - you can refer multiple arrays to the same location in memory
-        - nums = [1,2,3]
-        - numsCopy = nums
+    ```
+        nums = [1,2,3]
+        numsCopy = nums
+    ```
 - can change the values of an array that was defined by const but can't change the data type
 
 
@@ -149,24 +193,27 @@
     - username: 'alex.t34'
 
 - creating an object literal
-    - const person = {
+```
+    const person = {
         firstName: 'Alex',
         lastName: 'Tabascio',
         height: 190
         weight: 160
     }
+```
 - calling from an object literal
-    - person["lastName"] or person.lastName
+    `person["lastName"]` or `person.lastName`
     - can use the square brackets to use a variable as a key. can't use that using dot syntax
 
 - adding information to an object literal
     - change a value
-        - alex.weight = 170;
+        `alex.weight = 170;`
     - add a new value
-        - alex.gender = "Male";
+        `alex.gender = "Male";`
 
 - arrays and objects
-    - const shoppingCart = [
+```
+    const shoppingCart = [
         {
             product: 'bananas',
             price: 0.99,
@@ -178,8 +225,7 @@
             quantity: 2
         }
     ]
-    - shoppingCart[1].price
-        - 2.49
+```
 
 
 # Loops
@@ -200,16 +246,79 @@
 
 ## For...of
     - good for iterating over arrays or other iterable objects (such as strings)
-    - const n = [1,2,3,4]
-    - for(let i of n){
+```
+    const n = [1,2,3,4]
+    for(let i of n){
         console.log(i)
     }
+```
+
+```
+// GUESSING GAME CODE
+
+/* let maxNum = parseInt(prompt("Enter the maximum number!"));
+while (!maxNum){
+    maxNum = parseInt(prompt("Enter a valid number"));
+}
+
+const targetNum = Math.floor(Math.random() * maxNum) + 1;
+
+let guess = parseInt(prompt("Enter your first guess"));
+let attempts = 1;
+
+while(parseInt(guess !== targetNum)){
+    if(guess === 'q') break;
+    attempts++;
+    if(guess > targetNum){
+        guess = (prompt("Too high. Enter a new guess"));
+    } else {
+        guess = (prompt("Too high. Enter a new guess"));
+    }
+}
+if(guess === 'q'){
+    console.log("Okay quitting")
+} else {
+    console.log(`You got it! It took you ${attempts} guesses`)
+} */
+```
+
 
 - Iterating over objects
     - for in will iterate over a object
         - will just give us the key and then we can get the value using the key
     - can use a method Object.keys or Object.Values which turns it into an array
     - can then use for of like we learned before
+
+```
+// TODO LIST CODING DEMO
+
+const toDoList = ['Laundry', 'Meal Prep'];
+let input = prompt("What would you like to do?");
+
+while(input !== "quit"){
+    if(input === "list"){
+        console.log("*************")
+        for (let i = 0; i < toDoList.length; i++){
+            console.log(`${i}: ${toDoList[i]}`)
+        }
+        console.log("*************")
+    } else if(input === "new"){
+        const newToDo = prompt("What is the new To Do?")
+        toDoList.push(newToDo)
+        console.log(`${newToDo} added to the list`)
+    } else if (input === "delete"){
+        const index = parseInt(prompt("Ok, enter an index to delete"));
+        if(!Number.isNaN(index)){
+            const deleted = toDoList.splice(index, 1);
+            console.log(`Okay, you deleted ${deleted[0]}`);
+        } else {
+            console.log("Unknown");
+        }
+    }
+    input = prompt("What would you like to do?");
+}
+console.log("You quit the app!")
+```
 
 
 
@@ -247,9 +356,11 @@
 
 ## Expressions
 - storing a function within a variable
-    - const add = function(x,y){
+```
+    const add = function(x,y){
         return x + y;
     }
+```
 - both will behave the same way just different syntax.
 - functions are values that can be stored and pases around similar to an array
     - can pass and return functions, store them, etc.
@@ -257,7 +368,36 @@
 ## Higher Ordered Functions
 - functions that accept other functions, or functions that return functions
 - pass through the function not the value of the function
-    - callTwice(rollDie) NOT callTwice(rollDie())
+
+```
+// calling a function
+function callTwice(func){
+    func();
+    func();
+}
+
+function rollDie(){
+    const roll = Math.floor(Math.random() * 6) + 1
+    console.log(roll)
+}
+
+callTwice(rollDie)
+
+
+// returning a function
+function mysteryFunc(){
+    const rand = Math.random();
+    if(rand > 0.5){
+        return function() {
+            console.log("I am a good function")
+        }
+    } else{
+        return function() {
+            alert("I am a bad function")
+        }
+    }
+}
+```
 
 ## Returns
 - have to hold the function when returning a function
@@ -269,18 +409,43 @@
 ## Methods
 - functions that are added as properties on an object
 - every method is a function but not every function is a method
+```
+// METHODS
+const myMath = {
+    PI: 3.14159,
+    square(num) { 
+        return num * num;
+    },
+    cube(num){
+        return num ** 3;
+    }
+}
+```
 
 ## This
 - a keyword in JS used to access properties from the same object
 - it actually depends on how we call the function
+```
+// THIS
+const cat = {
+    name: 'Frodo',
+    color: 'white',
+    breed: 'raga muffin',
+    meow(){
+        console.log(`${this.name} says MEOOOOW`);
+    }
+}
+```
 
 ## Try/Catch
 - used to catch errors and prevent them from breaking your code
+```
 try {
     hello.toUpperCase();
 } catch {
     console.log("Error")
 }
+```
 
 # Callbacks and Array Methods
 - methods that expect a function to be passed in
@@ -291,72 +456,104 @@ try {
 
 ## Map
 - similar to foreach but creates a new array with the output
+```
+// Map
+const numbers = [1,2,3,4,5]
+const doubles = numbers.map(function(num){
+    return num * 2;
+})
+```
 
 ## Arrow Functions
 - Newer syntax for defining functions more compact than a regular function
-- example
-    - const square = (x) => {
+```
+    const square = (x) => {
         return x * x;
     }
+```
 - can do implicit return
     - leaves off return in certain situations
 - replace the {} with ()
 - can also remove the () if it's all on one line
 - CAN ONLY USE THIS FOR A SINGLE EXPRESSION
 
+- more examples
+```
+// Arrow Function
+const doubles = numbers.map(num => (
+    num * 2
+))
+
+const newdoubles = number.map(num => num *2)
+```
+
 ## setTimeout and setInterval
 - will execute code after a certain amount of time (milliseconds)
-    - setTimeout(() =>{
+```
+    setTimeout(() =>{
         console.log("are you there?")
     }, 3000)
-
+```
 - will continue to call the function at a certain interval
-    - const id = setInterval(() => {
+```
+    const id = setInterval(() => {
         console.log(Math.random())
     }, 2000);
-
-    - clearInterval(id); // will stop it
+    
+    clearInterval(id); // will stop it
+```
 
 ## filter
 - make a subset in a new array based on a rule or callback
-    - const goodMovies = movies.filter(movie => {
+```
+    const goodMovies = movies.filter(movie => {
         return move.score > 80;
     })
+```    
 - can chain methods together
-    - const badMovies = movies.filter(m => m.score < 30).map(=> m.title);
+    `const badMovies = movies.filter(m => m.score < 30).map(=> m.title);`
 
 ## Some and every
 - Every: returns true or false if every element return True
 - Some: very similar but returns true is any element returns True
-    - movies.some(movie => movie.year > 2015)
+    `movies.some(movie => movie.year > 2015)`
 
 ## reduce
 - executes a reducer function on each element of the array resulting in a single value in a similar way to a for loop
 - element.reduce((accumulator, current) => math operation i.e. accumulator + current)
 - can also specify the initial value
 
+
 ## Arrow functions and this
 - the keyword this behaves differently in arrow function compared to a regular function
-
+```
+// reduce
+const prices = [9.99, 1.50, 19.99, 30.50];
+const total = prices.reduce((total, price) => {
+    return total + price;
+})
+```
 
 
 # New Features in Java Script
 
 ## Default params
-- function rollDie(numSides = 6){
+```
+function rollDie(numSides = 6){
     return math.floor(math.random() * numSides) + 1
 }
+```
 - don't have to handle undefined with an if statement
 
 ## Spread
 In function Calls
 - Spreading an array in a function call
-- i.e Math.max(13,4,6,28,7)
+`Math.max(13,4,6,28,7)`
     - uses arguments for each number
-- const nums = [13,4,6,28,7]
+`const nums = [13,4,6,28,7]`
     - Math.max(nums) won't work
     - Can use ... to spread nums across into seperate arguments
-- Math.max(...nums)
+`Math.max(...nums)`
 - can also spread with strings to pass in each character
 
 With Array Literals
@@ -383,10 +580,51 @@ const canine = {isFurry: true, family: 'Caninae'};
 - Will hold the arguements passed into a function like an array, but doesn't have array arguements
     - the Rest Parameter will collect all arguments and put them into an array so we can use different elements
     - decalred in the function arguments
-- function sum(...nums){
+```
+function sum(...nums){
     return nums.reduce((total, el) => total + el)
 }
+```
 
 ## Destructuring
-- A clean syntax to extract values from arrays and/or objects
-- 
+- A clean syntax to extract values
+From and Array
+```
+const scores = [984931, 899431, 565607, 334533, 69785]
+const [gold, silver, bronze, ...everyoneElse] = scores;
+```
+- The order of the elements matter
+
+From an Object
+- can extract elements from an object into there own varaibles
+- can also add default values
+```
+const user = {
+    email: 'johnsmith@gmail.com,
+    password: `password124`,
+    firstName: John,
+    lastName: Smith,
+    born: 1999
+}
+
+// can deconstruct rather than extracting every property into its own variable
+const { email, firstName, lastName, born: birthYear, died = 'N/A'} = user;
+```
+
+From Parameters
+- can destructre from an object in the parameters
+```
+function fullName({firstname},{lastName}) {
+    return `${firstName} ${lastName}`
+}
+
+const user = {
+    email: 'johnsmith@gmail.com,
+    password: `password124`,
+    firstName: John,
+    lastName: Smith,
+    born: 1999
+}
+
+fullName(user)
+```

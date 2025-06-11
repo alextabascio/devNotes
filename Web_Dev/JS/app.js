@@ -140,6 +140,7 @@ console.log(total / scores.length)
 
 // TODO LIST CODING DEMO
 
+/*
 const toDoList = ['Laundry', 'Meal Prep'];
 let input = prompt("What would you like to do?");
 
@@ -166,4 +167,89 @@ while(input !== "quit"){
     input = prompt("What would you like to do?");
 }
 console.log("You quit the app!")
+*/
 
+// Higher ordered functions
+
+/*
+// calling a function
+function callTwice(func){
+    func();
+    func();
+}
+
+function rollDie(){
+    const roll = Math.floor(Math.random() * 6) + 1
+    console.log(roll)
+}
+
+callTwice(rollDie)
+
+// returning a function
+function mysteryFunc(){
+    const rand = Math.random();
+    if(rand > 0.5){
+        return function() {
+            console.log("I am a good function")
+        }
+    } else{
+        return function() {
+            alert("I am a bad function")
+        }
+    }
+}
+
+*/
+
+// METHODS
+/*
+const myMath = {
+    PI: 3.14159,
+    square(num) { 
+        return num * num;
+    },
+    cube(num){
+        return num ** 3;
+    }
+}
+*/
+
+// THIS
+
+/*
+const cat = {
+    name: 'Frodo',
+    color: 'white',
+    breed: 'raga muffin',
+    meow(){
+        console.log(`${this.name} says MEOOOOW`);
+    }
+}
+*/
+
+// METHOD ARRAYS AND ARROW FUNCTIONS
+
+// Map
+
+/*const numbers = [1,2,3,4,5]
+
+const doubles = numbers.map(function(num){
+    return num * 2;
+})*/
+
+// Arrow Function
+/*
+const doubles = numbers.map(num => (
+    num * 2
+))
+
+const newdoubles = number.map(num => num *2)
+*/
+
+// reduce
+/*
+const prices = [9.99, 1.50, 19.99, 30.50];
+const total = prices.reduce((total, price) => {
+    return total + price;
+})
+*/
