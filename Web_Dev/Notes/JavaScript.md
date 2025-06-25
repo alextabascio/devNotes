@@ -230,7 +230,7 @@ switch (day) {
 
 # Loops
 ## for loops
-    - for (initial expression, condition, incremental expression)
+- for (initial expression, condition, incremental expression)
 - looping over arrays
     - start i = 0 and then iterate through until the end
 - loop inside of loops
@@ -238,14 +238,14 @@ switch (day) {
     - good for working through nested arrays
 
 ## while loops
-    - good for a varied amount of counts or until certain instances are met
-    - game loops
+- good for a varied amount of counts or until certain instances are met
+- game loops
 
 ## Break
-    - a way to break out of a while loop
+- a way to break out of a while loop
 
 ## For...of
-    - good for iterating over arrays or other iterable objects (such as strings)
+- good for iterating over arrays or other iterable objects (such as strings)
 ```
     const n = [1,2,3,4]
     for(let i of n){
