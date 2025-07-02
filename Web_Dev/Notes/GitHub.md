@@ -141,8 +141,77 @@ git merge issue-5
 
 # Daily Workflows
 
-## Repeated Append
+## Repeated Amend
+- Commits can act as anchors in your project that you can refer back to if things break
+- Allows other people to see your progression
 
+- The repeated amend is a pattern where instead of cluttering ur history with lots of tiny commits you can work your way up to larger commit gradually by amending
 
+### Workflow
+- commit locally with the text WIP * DO NOT PUSH *
+- you can then commit again but amend with no edit
+- finally commit, amending again, but with a real commit message, then PUSH
 
+- if anything breaks you can do a hard reset which resets to the most recent commit
+
+## Push Rejection
+- means your local git and the github version do not align
+- You can’t cause some sort of merge to happen to the GitHub copy when you push.
+- Instead, you’ve got to pull the commit from GitHub and somehow integrate it into your local containing history. Then you will be able to push again.
+
+### Solutions
+- pays off to be proactively aware of what others are doing (e.g. to pull or fetch often) than to always be in reactive mode, learning about your collaborator’s work only when your push is rejected.
+Use Branches
+- Branches afford explicit workflows for integrating different lines of work on your own terms. This is much nicer than trying to do a tricky merge or rebase in a frustrated panic, because you need to push your work to GitHub at the end of the day.
+
+## Pull, but you have local work
+- You want to pull changes from upstream, but you have done some new work locally since the last time you pulled.
+    - This often comes up because what you actually want to do is push, but Git won’t let you until you first incorporate the upstream changes.
+    - Remote State: A--B--C
+
+### Local Work in Not Commited
+- A--B--(uncommited)
+- Two scenarios where git pull will work
+    - you've introduced new files that don't exist remotely
+    - the files you've affected locally HAVE ZERO OVERLAP with the files affected by the changes you need to pull from the remote version
+
+- If this isn't the case
+    - commit your work first. Local State: A--B--D
+    - Pull (Fetch and Merge)
+        - The simplest option is to fetch the commits from upstream and merge them, which is what git pull does. This is a good option if you’re new to Git. It leads to a messier history, but when you are new, this is the least of your worries.
+        - If there are merge conflicts you need to create a hybrid version and remove all the merge conflict markers
+    - Pull and rebase
+        - reates a nicer history than git pull when integrating local and remote commits. It avoids a merge commit, so the history is less cluttered and is linear.
+        - It can make merge conflicts more onerous to resolve, which is why git pull is still recommended as the entry-level solution.
+
+## Fork and clone
+- creating a clone (copy) of someone else's repo and propose new changes via a pull request that can them be merged with the original repo
+
+### usethis::create_from_github("OWNER/REPO", fork = TRUE)
+- requires you to have a configured Github personal access token
+- In the R console write
+```
+usethis::create_from_github(
+  "https://github.com/OWNER/REPO",
+  destdir = "~/path/to/where/you/want/the/local/repo/",
+  fork = TRUE
+)
+```
+- first arguement is where you put the repo URL from github
+- The destdir argument specifies the parent directory where you want the new folder (and local Git repo) to live.
+- The fork argument specifies whether to clone (fork = FALSE) or fork and clone (fork = TRUE). 
+- You should now be in the perfect position to sync up with ongoing developments in the source repo and to propose new changes via a pull request from your fork
+
+### Advice for Fork and Clone
+- work in a new branch rather than main if you are making any commits locally.
+    - If you commit to main in a repo you don’t own, it creates a divergence between that branch’s history in the source repo and in your repo.
+    - The OWNER of REPO will also be happier to receive your pull request from a non-main branch.
+
+## Explore and Extend a Pull Request
+- Pull request: An external person "requesting" you "pull" their changes into your projects repo
+- scenarios you'll encounter during a pull request
+    - you need to experiment with the PR in order to provide feedback or to decide whether or not to merge
+    - you want to add a few commits and then merge
+    - some merge conflicts that require your personal, local attention
+    - you want the original PR author to get credit for their commits, you want to preserve history and provenance, not just diffs
 
