@@ -1,6 +1,6 @@
-# R Packages
+# Getting Started
 
-## First Overview
+## Chapter 1: First Overview
 - `create_package("file_path_to_your_package")`
     - .Rbuildignore: lists files that we need to have around but that should not be included when building the R package from source
     - .gitignore: anticipates Git usage and tells Git to ignore some standard, behind-the-scenes files created by R and RStudio.
@@ -103,9 +103,91 @@ test_that("strsplit1() splits a string", {
         - use_r()
         - use_test()
         - use_package()
-        
+
 You will call these functions multiple times per day or per hour, during development:
         - load_all()
         - document()
         - test()
         - check()
+
+
+## Chapter 2: System Setup
+
+### Preparing your system
+- install the following packages
+    `install.packages(c("devtools", "roxygen2", "testthat", "knitr"))`
+- install the latest version of R studio
+
+### devtools, usethis, and you
+- How to approach using dev tools in package development
+    - If you are using the functions interactively to help you develop your package, you should think of devtools as the provider of your favorite functions for package development.
+        - attach devtools with `library(devtools)` and call the functions without qualification (e.g., `load_all()`)
+    - If you are using functions from devtools and friends within the package code you are writing, you should NOT depend on devtools, but should instead access functions via the package that is their primary home.
+        - For example, if you are creating a function in your package in which you need to query the state of the user’s R session, use `sessioninfo::session_info()` in your package instead of `devtools::session_info()`
+    - The usethis package is the one constituent package that more people may be aware of and that they may use directly. It holds the functions that act on the files and folders in an R project, most especially for any project that is also an R package. devtools makes it easy to access usethis functions interactively, as when you call library(devtools), usethis is also attached. Then you can use any function in usethis without qualification
+        - If you choose to specify the namespace, such as when working in a more programmatic style, then make sure you qualify the call with usethis, e.g., usethis::use_testthat()
+
+## Chapter 3: Package structure and state
+
+### Package States
+- 5 states an R package can be in
+    - source
+    - bundled
+    - binary
+    - installed
+    - in-memory
+
+Source
+- A source package is just a directory of files with a specific structure. It includes particular components, such as a DESCRIPTION file, an R/ directory containing .R files, and so on. Most of the remaining chapters in this book are dedicated to detailing these components.
+Bundled
+- a package that's been reduced to a single file.
+- In the rare case that you need to make a bundle from a package you’re developing locally, use devtools::build().
+Binary
+- If you want to distribute your package to an R user who doesn’t have package development tools, you’ll need to provide a binary package. The primary maker and distributor of binary packages is CRAN, not individual maintainers.
+- Like a package bundle, a binary package is a single file. Unlike a bundled package, a binary package is platform specific and there are two basic flavors: Windows and macOS.
+Installed
+- An installed package is a binary package that’s been decompressed into a package library
+- Most useRs understandably like to install packages from the comfort of an R session and directly from CRAN. The built-in function install.packages() meets this need. It can download the package, in various forms, install it, and optionally attend to the installation of dependencies.
+- `install_github()` is the most useful of these functions and is also featured in Figure 3.2. It is the flagship example of a family of functions that can download a package from a remote location that is not CRAN and do whatever is necessary to install it and its dependencies
+In-memory
+- `library(usethis)`
+    - Assuming usethis is installed, this call makes its functions available for use
+
+### Package Libraries
+- A directory containing installed packages, sort of like a library for books
+- When you call library(somepackage), R looks through the current libraries for an installed package named “somepackage” and, if successful, it makes somepackage available for use.
+- As your R usage grows more sophisticated, it’s common to start managing package libraries with more intention.   
+    - For example, tools like renv (and its predecessor packrat) automate the process of managing project-specific libraries.
+    - This can be important for making data products reproducible, portable, and isolated from one another.
+
+- Finally, it’s important to note that library() should NEVER be used inside a package. Packages and scripts rely on different mechanisms for declaring their dependencies and this is one of the biggest adjustments you need to make in your mental model and habits.
+
+## Chapter 4: Fundamental development workflows
+
+### Creating a package
+
+Naming your package
+- There are three formal requirements:
+    - The name can only consist of letters, numbers, and periods, i.e., ..
+    - It must start with a letter.
+    - It cannot end with a period.
+    - Unfortunately, this means you can’t use either hyphens or underscores, i.e., - or _, in your package name.
+    - We recommend against using periods in package names, due to confusing associations with file extensions and S3 methods.
+
+- Things to consider
+    - Don't pick a name that's already in use
+    - Avoid using both upper and lower case letters
+    - Don't get sued lol
+
+Package Creation
+- call `usethis::create_package()`
+- In RStudio, do File > New Project > New Directory > R Package. This ultimately calls usethis::create_package() so really there’s just one way.
+    - This produces the smallest possible working package, with three components:
+    1. An R/ directory, which you’ll learn about in Chapter 6.
+    2. A basic DESCRIPTION file, which you’ll learn about in Chapter 9.
+    3. A basic NAMESPACE file, which you’ll learn about in Section 10.2.2.
+- where should you do this
+    - The main and only required argument to create_package() is the path where your new package will live:
+    - `create_package("path/to/package/pkgname")`
+
+### RStudio Projects
