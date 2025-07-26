@@ -166,7 +166,7 @@ In-memory
 
 ### Creating a package
 
-Naming your package
+#### Naming your package
 - There are three formal requirements:
     - The name can only consist of letters, numbers, and periods, i.e., ..
     - It must start with a letter.
@@ -179,7 +179,7 @@ Naming your package
     - Avoid using both upper and lower case letters
     - Don't get sued lol
 
-Package Creation
+#### Package Creation
 - call `usethis::create_package()`
 - In RStudio, do File > New Project > New Directory > R Package. This ultimately calls usethis::create_package() so really there’s just one way.
     - This produces the smallest possible working package, with three components:
@@ -191,3 +191,271 @@ Package Creation
     - `create_package("path/to/package/pkgname")`
 
 ### RStudio Projects
+- recommend that each source package is an r studio project
+    - easy to start a new instance with the file browser and working directory
+    - each project is isolated
+    - `create_package()` will make each new package an r project if working in r studio
+    - if you already have a project setup use this workflow
+        - file > new project > existing directory (or version controlled for github)
+        - call create_package() with the path to the pre-existing directory
+        - call `usethis::use_rstudio()`
+
+### Test Drive with load_all()
+- the most important part of function workflow
+- load_all() is the key step in this “lather, rinse, repeat” cycle of package development:
+    - Tweak a function definition.
+    - load_all()
+    - Try out the change by running a small example or some tests.
+- The `library()` function can only load a package that has been installed, whereas `load_all()` gives a high-fidelity simulation of this, based on the current package source.
+
+#### Benefits of load_all
+- You can iterate quickly, which encourages exploration and incremental progress.
+- You get to develop interactively under a namespace regime that accurately mimics how things are when someone uses your installed package, with the following additional advantages:
+    - You can call your own internal functions directly, without using ::
+    - You can also call functions from other packages that you’ve imported into your NAMESPACE, without being tempted to attach these dependencies via library().
+- load_all() removes friction from the development workflow and eliminates the temptation to use workarounds that often lead to mistakes around namespace and dependency management.
+
+### check() and R CMD check
+- It is essential to pass R CMD check if you plan to submit your package to CRAN
+- reccomended way to run R CMD check is with `devtools::check()`
+- A rookie mistake that we see often in new package developers is to do too much work on their package before running R CMD check. Then, when they do finally run it, it’s typical to discover many problems, which can be very demoralizing.
+- It’s counter-intuitive but the key to minimizing this pain is to run R CMD check more often: the sooner you find a problem, the easier it is to fix
+
+### Workflow
+1. Run devtools::check(), or press Ctrl/Cmd + Shift + E.
+2. Fix the first problem.
+3. Repeat until there are no more problems.
+
+- R CMD check returns three types of messages:
+    - ERRORs: Severe problems that you should fix regardless of whether or not you’re submitting to CRAN.
+
+    - WARNINGs: Likely problems that you must fix if you’re planning to submit to CRAN (and a good idea to look into even if you’re not).
+
+    - NOTEs: Mild problems or, in a few cases, just an observation. If you are submitting to CRAN, you should strive to eliminate all NOTEs, even if they are false positives.
+
+
+## Chapter 5: The Package Within
+- This chapter looks at converting a data analysis script into a package
+
+### Alpha: An initial data script
+```
+infile <- "swim.csv"
+(dat <- read.csv(infile))
+
+dat$english[dat$where == "beach"] <- "US"
+dat$english[dat$where == "coast"] <- "US"
+dat$english[dat$where == "seashore"] <- "UK"
+dat$english[dat$where == "seaside"] <- "UK"
+
+dat$temp[dat$english == "US"] <- (dat$temp[dat$english == "US"] - 32) * 5/9
+dat
+
+now <- Sys.time()
+timestamp <- format(now, "%Y-%B-%d_%H-%M-%S")
+(outfile <- paste0(timestamp, "_", sub("(.*)([.]csv$)", "\\1_clean\\2", infile)))
+write.csv(dat, file = outfile, quote = FALSE, row.names = FALSE)
+```
+
+### Bravo: An improved script
+- loaded in tidyverse, converted a few repetitive steps to objects or functions
+```
+library(tidyverse)
+
+infile <- "swim.csv"
+dat <- read_csv(infile, col_types = cols(name = "c", where = "c", temp = "d"))
+
+lookup_table <- tribble(
+      ~where, ~english,
+     "beach",     "US",
+     "coast",     "US",
+  "seashore",     "UK",
+   "seaside",     "UK"
+)
+
+dat <- dat %>% 
+  left_join(lookup_table)
+
+f_to_c <- function(x) (x - 32) * 5/9
+
+dat <- dat %>% 
+  mutate(temp = if_else(english == "US", f_to_c(temp), temp))
+dat
+
+now <- Sys.time()
+timestamp <- function(time) format(time, "%Y-%B-%d_%H-%M-%S")
+outfile_path <- function(infile) {
+  paste0(timestamp(now), "_", sub("(.*)([.]csv$)", "\\1_clean\\2", infile))
+}
+write_csv(dat, outfile_path(infile))
+```
+
+### Charlie: Creating a Helper Function
+- typical next step is to move reusable data and logic out of the analysis script and into one or more seperate files. 
+- converted the word coversions into a csv table
+
+`beach-lookup-table.csv`
+```
+where,english
+beach,US
+coast,US
+seashore,UK
+seaside,UK
+```
+
+Here is the content of `cleaning-helpers.r`
+```
+library(tidyverse)
+
+localize_beach <- function(dat) {
+  lookup_table <- read_csv(
+    "beach-lookup-table.csv",
+    col_types = cols(where = "c", english = "c")
+  )
+  left_join(dat, lookup_table)
+}
+
+f_to_c <- function(x) (x - 32) * 5/9
+
+celsify_temp <- function(dat) {
+  mutate(dat, temp = if_else(english == "US", f_to_c(temp), temp))
+}
+
+now <- Sys.time()
+timestamp <- function(time) format(time, "%Y-%B-%d_%H-%M-%S")
+outfile_path <- function(infile) {
+  paste0(timestamp(now), "_", sub("(.*)([.]csv$)", "\\1_clean\\2", infile))
+}
+```
+- We’ve added some high-level helper functions, localize_beach() and celsify_temp(), to the pre-existing helpers (f_to_c(), timestamp(), and outfile_path()).
+
+Here is the new data cleaning script. Notice that the script is getting shorter and, hopefully, easier to read and modify, because repetitive and fussy clutter has been moved out of sight.
+```
+library(tidyverse)
+source("cleaning-helpers.R")
+
+infile <- "swim.csv"
+dat <- read_csv(infile, col_types = cols(name = "c", where = "c", temp = "d"))
+
+(dat <- dat %>% 
+    localize_beach() %>% 
+    celsify_temp())
+
+write_csv(dat, outfile_path(infile))
+```
+### Delta: a failed package
+- While this first attempt to create a package will end in failure, it’s still helpful to go through some common missteps.
+- Here are the simplest steps that you might take, in an attempt to convert cleaning-helpers.R into a proper package:
+    1. Use usethis::create_package("path/to/delta") to scaffold a new R package, with the name “delta”.
+        - This is a good first step!
+    2. Copy cleaning-helpers.R into the new package, specifically, to R/cleaning-helpers.R.
+        - This is morally correct, but mechanically wrong in several ways, as we will soon see.
+    3. Copy beach-lookup-table.csv into the new package. But where? Let’s try the top-level of the source package.
+        - This is not going to end well. Shipping data files in a package is a special topic
+    4. Install this package, perhaps using devtools::install() or via Ctrl + Shift + B (Windows & Linux) or Cmd + Shift + B in RStudio.
+        - Despite all of the problems identified above, this actually works!
+
+- Here is the new version of the data cleaning script with the new delta package installed
+```
+library(tidyverse)
+library(delta)
+
+infile <- "swim.csv"
+dat <- read_csv(infile, col_types = cols(name = "c", where = "c", temp = "d"))
+
+dat <- dat %>% 
+  localize_beach() %>% 
+  celsify_temp()
+
+write_csv(dat, outfile_path(infile))
+```
+
+#### What went wrong part 1
+- None of the helper functions are actually available for use, even though you call library(delta)! In contrast to source()ing a file of helper functions, attaching a package does not dump its functions into the global workspace. By default, functions in a package are only for internal use. You need to export localize_beach(), celsify_temp(), and outfile_path() so your users can call them.
+
+- In the devtools workflow, we achieve this by putting @export in the special roxygen comment above each function
+```
+#' @export
+celsify_temp <- function(dat) {
+  mutate(dat, temp = if_else(english == "US", f_to_c(temp), temp))
+}
+```
+- After you add the @export tag to `localize_beach()`, `celsify_temp()`, and `outfile_path()`, you run `devtools::document()` to (re)generate the NAMESPACE file, and re-install the delta package. Now when you re-execute the data cleaning script, it works!
+
+- Correction: it sort of works sometimes. Specifically, it works if and only if the working directory is set to the top-level of the source package. From any other working directory, you still get an error:
+
+```
+dat <- dat %>% 
+  localize_beach() %>% 
+  celsify_temp()
+#> Error: 'beach-lookup-table.csv' does not exist in current working directory ('/Users/jenny/tmp').
+```
+- The lookup table consulted inside localize_beach() cannot be found. One does not simply dump CSV files into the source of an R package and expect things to “just work”. 
+
+#### what went wrong part 2
+- This is a sobering reminder that you should be running R CMD check, probably via `devtools::check()`, very often during development.
+
+- check fails for this package imediately
+```
+ * installing *source* package ‘delta’ ...
+ ** using staged installation
+ ** R
+ ** byte-compile and prepare package for lazy loading
+ Error in library(tidyverse) : there is no package called ‘tidyverse’
+ Error: unable to load R code in package ‘delta’
+ Execution halted
+ ERROR: lazy loading failed for package ‘delta’
+ * removing ‘/Users/jenny/rrr/delta.Rcheck/delta’
+```
+- This error is what happens when the strictness of R CMD check meets the very first line of R/cleaning-helpers.R:
+    - In a package you can't declare a package as `library(tidyverse)`
+    - This is also not how you make functions in another package available for use in yours. Dependencies must be declared in DESCRIPTION
+
+### Echo: a working package
+- Here is the new version of R/cleaning-helpers.R
+```
+lookup_table <- dplyr::tribble(
+      ~where, ~english,
+     "beach",     "US",
+     "coast",     "US",
+  "seashore",     "UK",
+   "seaside",     "UK"
+)
+
+#' @export
+localize_beach <- function(dat) {
+  dplyr::left_join(dat, lookup_table)
+}
+
+f_to_c <- function(x) (x - 32) * 5/9
+
+#' @export
+celsify_temp <- function(dat) {
+  dplyr::mutate(dat, temp = dplyr::if_else(english == "US", f_to_c(temp), temp))
+}
+
+now <- Sys.time()
+timestamp <- function(time) format(time, "%Y-%B-%d_%H-%M-%S")
+
+#' @export
+outfile_path <- function(infile) {
+  paste0(timestamp(now), "_", sub("(.*)([.]csv$)", "\\1_clean\\2", infile))
+}
+```
+- We’ve gone back to defining the lookup_table with R code, since the initial attempt to read it from CSV created some sort of filepath snafu. 
+    - This is OK for small, internal, static data, but remember to see Chapter 7 for more general techniques for storing data in a package.
+- All of the calls to tidyverse functions have now been qualified with the name of the specific package that actually provides the function,dplyr::mutate().
+- It is also our strong recommendation that no one depend on the tidyverse meta-package in a package. Instead, it is better to identify the specific package(s) you actually use. In this case, the package only uses dplyr.
+- The library(tidyverse) call is gone and instead we declare the use of dplyr in the Imports field of DESCRIPTION:
+```
+Package: echo
+(... other lines omitted ...)
+Imports: 
+    dplyr
+```
+- This, together with the use of namespace-qualified calls, like dplyr::left_join(), constitutes a valid way to use another package within yours.
+- All of the user-facing functions have an @export tag in their roxygen comment, which means that devtools::document() adds them correctly to the NAMESPACE file.
+    - Note that f_to_c() is currently only used internally, inside celsify_temp(), so it is not exported (likewise for timestamp()).
+
+#### check()ing our package
+- This version of the package can be installed, used, AND it technically passes R CMD check, though with 1 warning and 1 note.
+```
